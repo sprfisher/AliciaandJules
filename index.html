@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alicia and Jules - The Study Guide - Federalism!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        #quiz-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #question-container {
+            margin-top: 20px;
+        }
+
+        .choice-button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .choice-button:hover {
+            background: #0056b3;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 5px solid #ccc;
+        }
+
+        #next-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+
+        #timer {
+            text-align: right;
+            font-weight: bold;
+            color: #dc3545;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Alicia and Jules - The Study Guide - Federalism!</h1>
+        <div id="timer">Time Left: 15</div>
+        <div id="question-container"></div>
+        <div id="feedback"></div>
+        <button id="next-button">Next Question</button>
+    </div>
+    <script>
+        const fullQuestionBank = [
+      {
+        question: "What is federalism?",
+        choices: [
+            "A) A system where all power belongs to the national government.",
+            "B) A system where power is divided between national and state governments.",
+            "C) A system where local governments have all authority.",
+            "D) A monarchy with centralized power."
+        ],
+        correctAnswer: 1,
+        explanation: "Federalism divides power between the national and state governments."
+    },
+    {
+        question: "Which document establishes the federal system of government in the United States?",
+        choices: [
+            "A) The Declaration of Independence",
+            "B) The Articles of Confederation",
+            "C) The U.S. Constitution",
+            "D) The Federalist Papers"
+        ],
+        correctAnswer: 2,
+        explanation: "The U.S. Constitution establishes federalism by dividing powers."
+    },
+    {
+        question: "Which level of government has the power to print money?",
+        choices: [
+            "A) Local government",
+            "B) State government",
+            "C) Federal government",
+            "D) All levels of government"
+        ],
+        correctAnswer: 2,
+        explanation: "The federal government controls the power to print money."
+    },
+    {
+        question: "Which of the following is a power reserved for the states?",
+        choices: [
+            "A) Declaring war",
+            "B) Regulating education",
+            "C) Coining money",
+            "D) Establishing foreign treaties"
+        ],
+        correctAnswer: 1,
+        explanation: "Education is a power reserved for state governments."
+    },
+    {
+        question: "What is a concurrent power shared by federal and state governments?",
+        choices: [
+            "A) Declaring war",
+            "B) Collecting taxes",
+            "C) Printing money",
+            "D) Making treaties"
+        ],
+        correctAnswer: 1,
+        explanation: "Both federal and state governments can collect taxes."
+    },
+    {
+        question: "Who resolves conflicts between state and federal laws?",
+        choices: [
+            "A) State courts",
+            "B) Local governments",
+            "C) The U.S. Supreme Court",
+            "D) The President"
+        ],
+        correctAnswer: 2,
+        explanation: "The U.S. Supreme Court resolves disputes involving federal and state laws."
+    },
+    {
+        question: "Which amendment reserves powers to the states?",
+        choices: [
+            "A) First Amendment",
+            "B) Tenth Amendment",
+            "C) Fifth Amendment",
+            "D) Fourteenth Amendment"
+        ],
+        correctAnswer: 1,
+        explanation: "The Tenth Amendment reserves powers not given to the federal government to the states."
+    },
+    {
+        question: "What type of government does the United States have?",
+        choices: [
+            "A) A monarchy",
+            "B) A federal system",
+            "C) A dictatorship",
+            "D) A confederation"
+        ],
+        correctAnswer: 1,
+        explanation: "The U.S. has a federal system, where power is divided between federal and state governments."
+    },
+    {
+        question: "Which of these is a responsibility of the federal government?",
+        choices: [
+            "A) Issuing driver's licenses",
+            "B) Providing national defense",
+            "C) Running public schools",
+            "D) Setting traffic laws"
+        ],
+        correctAnswer: 1,
+        explanation: "Providing national defense is a responsibility of the federal government."
+    },
+    {
+        question: "What is the 'Supremacy Clause' in the U.S. Constitution?",
+        choices: [
+            "A) State laws override federal laws.",
+            "B) Federal laws override state laws.",
+            "C) Local laws override state laws.",
+            "D) Treaties cannot be enforced."
+        ],
+        correctAnswer: 1,
+        explanation: "The Supremacy Clause states that federal laws override conflicting state laws."
+    },
+    {
+        question: "What are delegated powers?",
+        choices: [
+            "A) Powers given to the states only.",
+            "B) Powers shared by all levels of government.",
+            "C) Powers specifically granted to the federal government.",
+            "D) Powers given to local governments."
+        ],
+        correctAnswer: 2,
+        explanation: "Delegated powers are specifically granted to the federal government."
+    },
+    {
+        question: "Which is an example of a reserved power?",
+        choices: [
+            "A) Creating a military",
+            "B) Regulating interstate commerce",
+            "C) Conducting elections",
+            "D) Printing money"
+        ],
+        correctAnswer: 2,
+        explanation: "Conducting elections is a power reserved for state governments."
+    },
+    {
+        question: "What is an example of a shared power in the federal system?",
+        choices: [
+            "A) Regulating trade with foreign countries",
+            "B) Collecting taxes",
+            "C) Declaring war",
+            "D) Printing currency"
+        ],
+        correctAnswer: 1,
+        explanation: "Collecting taxes is a concurrent power shared by state and federal governments."
+    },
+    {
+        question: "What does the term 'enumerated powers' refer to?",
+        choices: [
+            "A) Powers given to the states.",
+            "B) Powers listed in the Constitution for the federal government.",
+            "C) Powers shared between state and local governments.",
+            "D) Powers not written in the Constitution."
+        ],
+        correctAnswer: 1,
+        explanation: "Enumerated powers are powers listed in the Constitution for the federal government."
+    },
+    {
+        question: "Which level of government is responsible for creating public schools?",
+        choices: [
+            "A) Federal government",
+            "B) State governments",
+            "C) Local governments",
+            "D) All levels of government"
+        ],
+        correctAnswer: 1,
+        explanation: "State governments are primarily responsible for creating public schools."
+    },
+    {
+        question: "Who has the power to regulate interstate commerce?",
+        choices: [
+            "A) State governments",
+            "B) Federal government",
+            "C) Local governments",
+            "D) County courts"
+        ],
+        correctAnswer: 1,
+        explanation: "The federal government regulates interstate commerce."
+    },
+    {
+        question: "What is one example of a federal government responsibility?",
+        choices: [
+            "A) Providing police protection",
+            "B) Managing the military",
+            "C) Issuing marriage licenses",
+            "D) Collecting property taxes"
+        ],
+        correctAnswer: 1,
+        explanation: "Managing the military is a responsibility of the federal government."
+    },
+    {
+        question: "What are implied powers?",
+        choices: [
+            "A) Powers not specifically listed but necessary to carry out duties.",
+            "B) Powers listed for state governments.",
+            "C) Powers reserved only for local governments.",
+            "D) Powers shared by all branches of government."
+        ],
+        correctAnswer: 0,
+        explanation: "Implied powers are not listed but necessary for the federal government to fulfill its duties."
+    }
+        ];
+
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 15;
+
+        const questionContainer = document.getElementById("question-container");
+        const feedbackContainer = document.getElementById("feedback");
+        const nextButton = document.getElementById("next-button");
+        const timerDisplay = document.getElementById("timer");
+
+        // Fisher-Yates Shuffle to Randomize Questions
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Generate Random Questions
+        function generateRandomQuestions() {
+            const questionPool = [...fullQuestionBank];
+            shuffleArray(questionPool);
+            questions = questionPool.slice(0, 10); // Select 10 random questions
+        }
+
+        // Start Timer
+        function startTimer() {
+            timeLeft = 15;
+            timerDisplay.textContent = `Time Left: ${timeLeft}`;
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = `Time Left: ${timeLeft}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timeOut();
+                }
+            }, 1000);
+        }
+
+        // Time Out Handling
+        function timeOut() {
+            const question = questions[currentQuestionIndex];
+            feedbackContainer.innerHTML = `
+                <p>Time's up!</p>
+                <p>The correct answer was: ${question.choices[question.correctAnswer]}</p>
+                <p>${question.explanation}</p>
+            `;
+            disableChoices();
+            nextButton.style.display = "block";
+        }
+
+        // Load a Question
+function loadQuestion() {
+    clearInterval(timer); // Reset timer
+    startTimer();
+    feedbackContainer.innerHTML = "";
+    nextButton.style.display = "none";
+
+    const question = questions[currentQuestionIndex];
+    const originalChoices = [...question.choices]; // Keep a copy of original choices
+    let choices = [...question.choices];
+
+    // Shuffle choices repeatedly to ensure random distribution of the correct answer
+    do {
+        shuffleArray(choices); // Randomize choices
+    } while (choices.indexOf(question.choices[question.correctAnswer]) === 0); 
+    // Prevent correct answer always being the first position (you can modify for other rules)
+
+    // Update correctAnswer index after shuffling
+    const correctChoice = originalChoices[question.correctAnswer];
+    question.correctAnswer = choices.indexOf(correctChoice);
+
+    questionContainer.innerHTML = `
+        <h2>${question.question}</h2>
+        ${choices.map((choice, index) => `
+            <button class="choice-button" data-choice="${index}">${choice}</button>
+        `).join('')}
+    `;
+
+    document.querySelectorAll(".choice-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const userAnswer = parseInt(button.getAttribute("data-choice"));
+            checkAnswer(button, userAnswer);
+        });
+    });
+}
+
+        // Check the Answer
+        function checkAnswer(button, userAnswer) {
+            clearInterval(timer); // Stop the timer
+            const question = questions[currentQuestionIndex];
+            const isCorrect = userAnswer === question.correctAnswer;
+
+            document.querySelectorAll(".choice-button").forEach(btn => btn.disabled = true);
+            if (isCorrect) {
+                button.classList.add("correct");
+                score++;
+            } else {
+                button.classList.add("incorrect");
+                document.querySelectorAll(".choice-button")[question.correctAnswer].classList.add("correct");
+            }
+
+            feedbackContainer.innerHTML = `
+                <p>${isCorrect ? "Correct!" : "Incorrect."}</p>
+                <p>${question.explanation}</p>
+            `;
+            nextButton.style.display = "block";
+        }
+
+        // Disable all Choices
+        function disableChoices() {
+            document.querySelectorAll(".choice-button").forEach(btn => btn.disabled = true);
+            document.querySelectorAll(".choice-button")[questions[currentQuestionIndex].correctAnswer].classList.add("correct");
+        }
+
+        // Next Question Handling
+        nextButton.addEventListener("click", () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                questionContainer.innerHTML = `
+                    <h2>Quiz Complete!</h2>
+                    <p>Your Score: ${score} / ${questions.length}</p>
+                `;
+                feedbackContainer.innerHTML = "";
+                nextButton.style.display = "none";
+                timerDisplay.style.display = "none";
+            }
+        });
+
+        // Initialize the Quiz
+        generateRandomQuestions();
+        loadQuestion();
+    </script>
+</body>
+</html>
